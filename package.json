@@ -1,0 +1,11 @@
+{
+  "name": "prusa-mqtt",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Maciej Krüger <mkg20001@gmail.com>",
+  "license": "MIT",
+  "type": "module",
+  "dependencies": {
+    "js-yaml": "^4.1.0"
+  }
+}

@@ -1,0 +1,7 @@
+mqtt: "mqtt://mqtt.realraum.at:1883"
+printers:
+- display: MK4
+  ip: 192.168.178.42
+  key: 1234
+  topic: "realraum/mk4/3dprintprogress"
+
