@@ -50,6 +50,7 @@ function Daemon(client, { display, ip, key, topic }) {
 		} catch (e) {
 			// noop
 		}
+		if (!intv) return
 		lock = main()
 	}
 
@@ -80,12 +81,13 @@ function Daemon(client, { display, ip, key, topic }) {
 
 	return {
 		start() {
-			if (!intv) intv = setInterval(main, 1000)
+			if (!intv) intv = setInterval(wrapper, 1000)
 		},
 		async stop() {
 			clearInterval(intv)
 			await lock
 			await client.publishAsync(topic, Buffer.from([]))
+			intv = null
 		}
 	}
 }
