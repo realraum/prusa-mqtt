@@ -44,6 +44,14 @@ function Daemon(client, { display, ip, key, topic }) {
 
 	let lock
 
+	async function clear() {
+		await client.publishAsync(topic, Buffer.from([]), {
+			properties: {
+				retain: true
+			}
+		})
+	}
+
 	async function wrapper() {
 		try {
 			await lock
@@ -61,7 +69,7 @@ function Daemon(client, { display, ip, key, topic }) {
 			info = await printer.info()
 		} catch (e) {
 			console.error('Failed to fetch info for %s: %o', display, String(e))
-			await client.publishAsync(topic, Buffer.from([]))
+			await clear()
 			return
 		}
 
@@ -73,7 +81,7 @@ function Daemon(client, { display, ip, key, topic }) {
 				Progress_percent: Math.floor(info.progress.completion * 100)
 			}))
 		} else {
-			await client.publishAsync(topic, Buffer.from([]))
+			await clear()
 		}
 	}
 
@@ -86,7 +94,8 @@ function Daemon(client, { display, ip, key, topic }) {
 		async stop() {
 			clearInterval(intv)
 			await lock
-			await client.publishAsync(topic, Buffer.from([]))
+			console.log('Clear %s', display)
+			await clear()
 			intv = null
 		}
 	}
