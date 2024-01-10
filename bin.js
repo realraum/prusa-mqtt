@@ -4,6 +4,8 @@ import fs from 'fs'
 import { connect } from 'mqtt'
 import yaml from 'js-yaml'
 
+const nullbyte = Buffer.from('00', 'hex')
+
 function PrusaPrinter(host, apiKey) {
 	async function req(url, method = 'GET', headers = {}) {
 		const req = await fetch(host + '/api' + url, {
@@ -45,11 +47,7 @@ function Daemon(client, { display, ip, key, topic }) {
 	let lock
 
 	async function clear() {
-		await client.publishAsync(topic, Buffer.from([]), {
-			properties: {
-				retain: true
-			}
-		})
+		await client.publishAsync(topic, nullbyte)
 	}
 
 	async function wrapper() {
