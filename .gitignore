@@ -1,3 +1,4 @@
 config*
 !config.example.yaml
 node_modules
+result*

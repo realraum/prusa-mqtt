@@ -5,6 +5,9 @@
   "author": "Maciej Krüger <mkg20001@gmail.com>",
   "license": "MIT",
   "type": "module",
+  "bin": {
+    "prusa-mqtt": "./bin.js"
+  },
   "dependencies": {
     "js-yaml": "^4.1.0",
     "mqtt": "^5.3.4"
