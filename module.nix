@@ -11,7 +11,7 @@ in
     services.prusa-mqtt = {
       enable = mkEnableOption "prusa-mqtt";
 
-      settings = {
+      settings = mkOption {
         description = "Configuration for prusa-mqtt";
         type = format.type;
       };
