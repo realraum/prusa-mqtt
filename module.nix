@@ -24,7 +24,7 @@ in
       script = "prusa-mqtt ${format.generate "config.yaml" cfg.settings}";
       wantedBy = [ "multi-user.target" ];
       after = [ "network.target" ];
-      restart = "always";
+      serviceConfig.Restart = "always";
     };
   };
 }
