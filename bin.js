@@ -7,7 +7,7 @@ import debug from 'debug'
 
 const log = debug('prusa-mqtt')
 
-const nullbyte = Buffer.from('00', 'hex')
+const nullbyte = Buffer.allocUnsafe(0)
 
 function PrusaPrinter(host, apiKey) {
 	async function req(url, method = 'GET', headers = {}) {
@@ -53,7 +53,9 @@ function Daemon(client, { display, ip, key, topic }) {
 
 	async function clear() {
 		log('@%s: Clearing', display)
-		await client.publishAsync(topic, nullbyte)
+		await client.publishAsync(topic, nullbyte, {
+			retain: true
+		})
 	}
 
 	async function wrapper() {
