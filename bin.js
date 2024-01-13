@@ -3,6 +3,9 @@
 import fs from 'fs'
 import { connect } from 'mqtt'
 import yaml from 'js-yaml'
+import debug from 'debug'
+
+const log = debug('prusa-mqtt')
 
 const nullbyte = Buffer.from('00', 'hex')
 
@@ -31,6 +34,8 @@ function PrusaPrinter(host, apiKey) {
 	return self
 }
 
+console.log('Starting...')
+
 let config
 
 try {
@@ -47,6 +52,7 @@ function Daemon(client, { display, ip, key, topic }) {
 	let lock
 
 	async function clear() {
+		log('@%s: Clearing', display)
 		await client.publishAsync(topic, nullbyte)
 	}
 
@@ -66,12 +72,13 @@ function Daemon(client, { display, ip, key, topic }) {
 		try {
 			info = await printer.info()
 		} catch (e) {
-			console.error('Failed to fetch info for %s: %o', display, String(e))
+			log('@%s: Failed to fetch info: %o', display, String(e))
 			await clear()
 			return
 		}
 
 		if (info.state === 'Printing' || info.state === 'Finished') {
+			log('@%s: Publishing job %s', display, info.job.file.display)
 			await client.publishAsync(topic, JSON.stringify({
 				Printer: display,
 				Job: info.job.file.display,
@@ -87,14 +94,16 @@ function Daemon(client, { display, ip, key, topic }) {
 
 	return {
 		start() {
+			log('@%s: Starting', display)
 			if (!intv) intv = setInterval(wrapper, 1000)
 		},
 		async stop() {
+                        log('@%s: Stopping', display)
 			clearInterval(intv)
 			await lock
-			console.log('Clear %s', display)
 			await clear()
 			intv = null
+                        log('@%s: Stopped', display)
 		}
 	}
 }
@@ -108,6 +117,8 @@ for (const printer of config.printers) {
 for (const daemon of daemons) {
 	daemon.start()
 }
+
+console.log('Started!')
 
 async function stop() {
 	console.log('Stopping...')

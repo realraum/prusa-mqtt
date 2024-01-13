@@ -9,6 +9,7 @@
     "prusa-mqtt": "./bin.js"
   },
   "dependencies": {
+    "debug": "^4.3.4",
     "js-yaml": "^4.1.0",
     "mqtt": "^5.3.4"
   }
