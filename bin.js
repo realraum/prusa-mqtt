@@ -58,12 +58,17 @@ function Daemon(client, { display, ip, key, topic }) {
 		})
 	}
 
+	let queued = false
+
 	async function wrapper() {
+		if (queued) return
 		try {
+			queued = true
 			await lock
 		} catch (e) {
 			// noop
 		}
+		queued = false
 		if (!intv) return
 		lock = main()
 	}
