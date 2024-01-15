@@ -50,12 +50,15 @@ function Daemon(client, { display, ip, key, topic }) {
 	const printer = PrusaPrinter("http://" + ip, key)
 
 	let lock
+	let cleared = false
 
 	async function clear() {
+		if (cleared) return log('@%s: Skip clear', display)
 		log('@%s: Clearing', display)
 		await client.publishAsync(topic, nullbyte, {
 			retain: true
 		})
+		cleared = true
 	}
 
 	let queued = false
@@ -92,6 +95,7 @@ function Daemon(client, { display, ip, key, topic }) {
 				Elapsed_time_s: info.progress.printTime,
 				Progress_percent: Math.floor(info.progress.completion * 100)
 			}))
+			cleared = false
 		} else {
 			await clear()
 		}
