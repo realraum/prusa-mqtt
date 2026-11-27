@@ -9,8 +9,8 @@ dependencies:
     specifier: ^4.3.4
     version: 4.3.4
   js-yaml:
-    specifier: ^4.1.0
-    version: 4.1.0
+    specifier: ^4.3.2
+    version: 4.3.2
   mqtt:
     specifier: ^5.3.4
     version: 5.3.4
@@ -172,8 +172,8 @@ packages:
     resolution: {integrity: sha512-mifzlm2+5nZ+lEcLJMoBK0/IH/bDg8XnJfd/Wq6IP+xoCjLZsTOnV2QpxlVbX9bMnkl5PdEjNtBJ9Cj1NjifhQ==}
     dev: false
 
-  /js-yaml@4.1.0:
-    resolution: {integrity: sha512-wpxZs9NoxZaJESJGIZTyDEaYpl0FKSA+FB9aJiyemKhMwkxQg63h4T1KJgUGHpTqPDNRcmmYLugrRjJlBtWvRA==}
+  /js-yaml@4.3.2:
+    resolution: {integrity: sha512-SFNOvSJ+Dgf/9An904Yx+CgSlIPCkIpao4qo51lpee25TIRejdH3rhR4EZMGoNx3/TP3O+wzWuiTFl4sqbltzA==}
     hasBin: true
     dependencies:
       argparse: 2.0.1
